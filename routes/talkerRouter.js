@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const { readContentFile } = require('../helpers/ReadWWriteFile');
-const services = require('../services/talkerServices');
+const { CreateTalker, GetById } = require('../services/talkerServices');
+const talkerValidation = require('../middlewares/talkerValidate');
+const tokenValidate = require('../middlewares/TokenValidate');
 
 const PATH_FILE = './talker.json';
 
@@ -9,6 +11,8 @@ router.get('/', async (req, res) => {
     res.status(200).json(talker);
 });
 
-router.get('/talker/:id', services.GetById);
+router.post('/', tokenValidate, talkerValidation, CreateTalker);
+
+router.get('/:id', GetById);
 
 module.exports = router;
