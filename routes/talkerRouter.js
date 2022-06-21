@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { readContentFile } = require('../helpers/ReadWWriteFile');
-const { CreateTalker, GetById } = require('../services/talkerServices');
+const { CreateTalker, GetById, updateTalker } = require('../services/talkerServices');
 const talkerValidation = require('../middlewares/talkerValidate');
 const tokenValidate = require('../middlewares/TokenValidate');
 
@@ -14,5 +14,7 @@ router.get('/', async (req, res) => {
 router.post('/', tokenValidate, talkerValidation, CreateTalker);
 
 router.get('/:id', GetById);
+
+router.put('/:id', tokenValidate, talkerValidation, updateTalker);
 
 module.exports = router;

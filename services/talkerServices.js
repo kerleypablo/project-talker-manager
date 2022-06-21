@@ -1,4 +1,6 @@
-const { readContentFile, writeContentFile } = require('../helpers/ReadWWriteFile'); 
+const { readContentFile, 
+      writeContentFile, 
+      updateContentFile } = require('../helpers/ReadWWriteFile'); 
 
 const PATH_FILE = './talker.json';
 
@@ -25,4 +27,19 @@ const CreateTalker = async (req, res) => {
     return res.status(201).json(talker);
 };
 
-module.exports = { GetById, CreateTalker };
+const updateTalker = async (req, res) => {
+  const { name, age, talk } = req.body;
+  const { id } = req.params;
+  const newTalker = {
+      name,
+      age,
+      id: Number(id),
+      talk,
+    };
+    await updateContentFile(PATH_FILE, id, newTalker);
+    const allresult = await readContentFile(PATH_FILE);
+    const result = allresult.find((talker) => talker.id === Number(id));
+    return res.status(200).json(result);
+};
+
+module.exports = { GetById, CreateTalker, updateTalker };
