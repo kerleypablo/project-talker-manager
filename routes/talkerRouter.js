@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { readContentFile } = require('../helpers/ReadWWriteFile');
-const { CreateTalker, GetById, updateTalker } = require('../services/talkerServices');
+const { CreateTalker, GetById, updateTalker, DeleteTalker } = require('../services/talkerServices');
 const talkerValidation = require('../middlewares/talkerValidate');
 const tokenValidate = require('../middlewares/TokenValidate');
 
@@ -16,5 +16,7 @@ router.post('/', tokenValidate, talkerValidation, CreateTalker);
 router.get('/:id', GetById);
 
 router.put('/:id', tokenValidate, talkerValidation, updateTalker);
+
+router.delete('/:id', tokenValidate, DeleteTalker);
 
 module.exports = router;

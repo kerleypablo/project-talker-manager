@@ -35,4 +35,16 @@ const updateContentFile = async (path, id, content) => {
     }
 };
 
-module.exports = { readContentFile, writeContentFile, updateContentFile };
+const deleteContentFile = async (path, id) => {
+    try {
+        const arrayContent = await readContentFile(path) || [];
+        const filterId = arrayContent.filter((talker) => talker.id !== Number(id));
+        await fs.writeFile(path, JSON.stringify(filterId));
+        
+        return filterId;
+    } catch (error) {
+        return null;
+    }
+};
+
+module.exports = { readContentFile, writeContentFile, updateContentFile, deleteContentFile };

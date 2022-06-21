@@ -1,6 +1,7 @@
 const { readContentFile, 
       writeContentFile, 
-      updateContentFile } = require('../helpers/ReadWWriteFile'); 
+      updateContentFile,
+      deleteContentFile } = require('../helpers/ReadWWriteFile'); 
 
 const PATH_FILE = './talker.json';
 
@@ -42,4 +43,10 @@ const updateTalker = async (req, res) => {
     return res.status(200).json(result);
 };
 
-module.exports = { GetById, CreateTalker, updateTalker };
+const DeleteTalker = async (req, res) => {
+    const { id } = req.params;
+      await deleteContentFile(PATH_FILE, id); 
+      return res.status(204).json();
+  };
+
+module.exports = { GetById, CreateTalker, updateTalker, DeleteTalker };
